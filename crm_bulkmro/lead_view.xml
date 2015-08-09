@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data noupdate="0">
+        <record model="ir.sequence.type" id="crm_lead_inquiry_code_sequence">
+            <field name="name">Inquiry number for Leads</field>
+            <field name="code">crm.lead.inquiry.sequence</field>
+        </record>
+        <record model="ir.sequence" id="crm_lead_inquiry_sequence">
+            <field name="name">Sequence For Inquiries(for Leads)</field>
+            <field name="code">crm.lead.inquiry.sequence</field>
+            <field name="active">TRUE</field>
+            <field name="prefix">INQ</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+            <field name="number_next_actual">1</field>
+            <field name="implementation">standard</field>
+        </record>       
+    </data>
+    
+    <data>
+    		 <record model="ir.ui.view" id="crm_lead_bulkmro_form_view">
+                <field name="name">crm.lead.bulkmro.form</field>
+                <field name="model">crm.lead</field>
+                <field name="type">form</field>
+                <field name="inherit_id" ref="crm.crm_case_form_view_leads"/>
+                <field name="arch" type="xml">
+	                <xpath expr="/form/sheet/div[2]/label" position="before">
+	                	<group colspan="2">
+	                	<field name="inquiry_number"></field>
+	                	</group>
+	                </xpath>                    
+                </field>
+            </record>
+
+
+    		 <record model="ir.ui.view" id="crm_oppor_bulkmro_form_view">
+                <field name="name">crm.oppor.bulkmro.form</field>
+                <field name="model">crm.lead</field>
+                <field name="type">form</field>
+                <field name="inherit_id" ref="crm.crm_case_form_view_oppor"/>
+                <field name="arch" type="xml">
+	                <xpath expr="/form/sheet/div[2]/label" position="before">
+	                	<group colspan="2">
+	                	<field name="inquiry_number"></field>
+	                	</group>
+	                </xpath>                    
+                </field>
+            </record>            
+            
+    </data>
+</openerp>
