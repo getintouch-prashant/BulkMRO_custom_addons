@@ -13,7 +13,7 @@ class crm_lead(models.Model):
 
     
     def get_inq_number(self):
-        return self.env['ir.sequence'].get('crm.lead.inquiry.sequence') or '/'
+        return self.env['ir.sequence'].get('crm.lead.inquiry.sequence') or ''
         
     inquiry_number = fields.Char(string = "Inquiry Number", default=get_inq_number)
 

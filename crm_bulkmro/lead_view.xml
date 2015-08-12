@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
-    <data noupdate="0">
+    <data noupdate="1">
         <record model="ir.sequence.type" id="crm_lead_inquiry_code_sequence">
             <field name="name">Inquiry number for Leads</field>
             <field name="code">crm.lead.inquiry.sequence</field>
@@ -45,7 +45,31 @@
 	                	</group>
 	                </xpath>                    
                 </field>
-            </record>            
+            </record>
+            
+<!--         <record id="action_mark_as_junk" model="ir.actions.server"> -->
+<!--             <field name="name">Mark As Junk</field> -->
+<!--             <field name="model_id" ref="model_crm_lead"/> -->
+<!--             <field name="state">code</field> -->
+<!--             <field name="code"> -->
+<!--                 if context.get('active_model') == 'crm.lead' and context.get('active_ids'): -->
+<!--                     self.case_mark_lost(cr, uid, context['active_ids'], context=context) -->
+<!--             </field> -->
+<!--         </record>             -->
+            
+<!--         <record id="ir_mark_as_junk_mail" model="ir.values"> -->
+<!--             <field eval="'client_action_multi'" name="key2"/> -->
+<!--             <field eval="'crm.lead'" name="model"/> -->
+<!--             <field name="name">Mark as Junk Mail</field> -->
+<!--             <field eval="'ir.actions.server,%d'%action_mark_as_junk" name="value"/> -->
+<!--         </record> -->
+        
+<!--         <record id="ir_mark_as_admin_mail" model="ir.values"> -->
+<!--             <field eval="'client_action_multi'" name="key2"/> -->
+<!--             <field eval="'crm.lead'" name="model"/> -->
+<!--             <field name="name">Mark as Admin Mail</field> -->
+<!-- 			<field name="value" eval="'ir.actions.server,' + str(ref('crm.action_mark_as_lost'))" /> 
+        </record>-->
             
     </data>
 </openerp>
