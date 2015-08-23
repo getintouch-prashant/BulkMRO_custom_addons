@@ -23,7 +23,8 @@
 
     # always loaded
     'data': [
-             'lead_view.xml'
+             'lead_view.xml',
+             'wizard/crm_lead_to_opportunity_view.xml',             
         # 'security/ir.model.access.csv',
     ],
     # only loaded in demonstration mode

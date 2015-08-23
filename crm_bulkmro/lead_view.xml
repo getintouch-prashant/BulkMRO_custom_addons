@@ -47,6 +47,24 @@
                 </field>
             </record>
             
+            <record model="ir.ui.view" id="view_crm_lead2opportunity_partner_inherit_form_view">
+                <field name="name">crm.lead2opportunity.partner.form.inherit</field>
+                <field name="model">crm.lead2opportunity.partner</field>
+                <field name="type">form</field>
+                <field name="inherit_id" ref="crm.view_crm_lead2opportunity_partner"/>
+                <field name="arch" type="xml">
+		                <xpath expr="/form/group[1]/field[@name='name']" position="attributes">
+		                    <attribute name="widget">radio</attribute>
+		                </xpath>
+		                <xpath expr="/form/group[2]/field[@name='section_id']" position="attributes">
+		                    <attribute name="invisible">1</attribute>
+		                </xpath>
+		                <xpath expr="/form/group[3]/field[@name='opportunity_ids']" position="attributes">
+		                    <attribute name="widget">many2many_tags</attribute>
+		                </xpath>
+                </field>
+            </record>
+            
 <!--         <record id="action_mark_as_junk" model="ir.actions.server"> -->
 <!--             <field name="name">Mark As Junk</field> -->
 <!--             <field name="model_id" ref="model_crm_lead"/> -->
