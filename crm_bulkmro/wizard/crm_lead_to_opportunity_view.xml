@@ -10,15 +10,25 @@
 		                <xpath expr="/form/group[1]/field[@name='name']" position="after">
 		                    <field name="inquiry_number" attrs="{'required': [('name', '=', 'convert')], 'invisible':[('name','=','merge')]}"/>
 		                </xpath>
-		                <xpath expr="/form/group[1]/field[@name='name']" position="attributes">
+		                <xpath expr="/form/group[@name='name']/field[@name='name']" position="attributes">
 		                    <attribute name="widget">radio</attribute>
 		                </xpath>
-		                <xpath expr="/form/group[2]/field[@name='section_id']" position="attributes">
+		                <xpath expr="/form/group[@string='Assign opportunities to']/field[@name='section_id']" position="attributes">
 		                    <attribute name="invisible">1</attribute>
 		                </xpath>
-		                <xpath expr="/form/group[3]/field[@name='opportunity_ids']" position="attributes">
-		                    <attribute name="widget">many2many_tags</attribute>
+		                <xpath expr="/form/group[@string='Opportunities']/field[@name='opportunity_ids']" position="replace">
+<!-- 		                    <attribute name="widget">many2many_tags</attribute> -->
+								<field name="opportunity_id" attrs="{'invisible': [('name', '!=', 'merge')], 'required': [('name', '=', 'merge')],}"
+								on_change="on_change_opportunity(opportunity_id)"
+								options="{'no_quick_create': true}	"/>
 		                </xpath>
+		                <xpath expr="/form/group[@string='Assign opportunities to']" position="attributes">
+		                    <attribute name="attrs">{'invisible':[('name','=','merge')]}</attribute>
+		                </xpath>
+<!-- 		                <xpath expr="/form/group[3]/field[@name='opportunity_ids']" position="attributes"> -->
+<!-- 		                    <attribute name="widget">many2many_tags</attribute> -->
+<!-- 		                </xpath> -->
+		                
                 </field>
             </record>
                         

@@ -12,6 +12,12 @@ class crm_lead2opportunity_partner(osv.osv_memory):
         'inquiry_number': fields.char('Inquiry Number'),
         'opportunity_id': fields.many2one('crm.lead', 'Select Opportunity'),
     }
+
+    def on_change_opportunity(self, cr, uid, ids, opportunity_id, context=None):
+        if opportunity_id:
+            opportunity = self.pool['crm.lead'].browse(cr, uid, opportunity_id, context=context)
+            return {'value': {'user_id': opportunity[0].user_id.id}}
+        return {'value': {}}
     
     def action_apply(self, cr, uid, ids, context=None):
         """
@@ -24,7 +30,8 @@ class crm_lead2opportunity_partner(osv.osv_memory):
         lead_obj = self.pool['crm.lead']
 
         w = self.browse(cr, uid, ids, context=context)[0]
-        opp_ids = [o.id for o in w.opportunity_ids]
+        opp_ids = [o.id for o in w.opportunity_id]
+        opp_ids.append(context['active_id']) if context.get('active_id', False) else None
         vals = {
             'section_id': w.section_id.id,
         }
