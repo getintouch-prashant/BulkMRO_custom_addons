@@ -40,6 +40,11 @@ class crm_lead2opportunity_partner(osv.osv_memory):
         if w.name == 'merge':
             lead_id = lead_obj.merge_opportunity(cr, uid, opp_ids, context=context)
             lead_ids = [lead_id]
+
+            if lead_id == context['active_id']:
+                raise osv.except_osv(_('Warning'), _("You can not merge a lead with itself.\
+                Please choose correct opportunity to complete merge operation."))
+
             lead = lead_obj.read(cr, uid, lead_id, ['type', 'user_id'], context=context)
             if lead['type'] == "lead":
                 context = dict(context, active_ids=lead_ids)
