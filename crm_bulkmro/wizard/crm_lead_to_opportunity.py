@@ -2,6 +2,11 @@
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
 import re
+import logging
+from openerp.exceptions import Warning
+
+_logger = logging.getLogger(__name__)
+
 
 class crm_lead2opportunity_partner(osv.osv_memory):
 #     _name = 'crm.lead2opportunity.partner'
@@ -38,14 +43,21 @@ class crm_lead2opportunity_partner(osv.osv_memory):
         if w.partner_id:
             vals['partner_id'] = w.partner_id.id
         if w.name == 'merge':
+            if opp_ids[0] == context['active_id']:
+                raise Warning(_("You can not merge a lead with itself. Please choose correct opportunity to complete merge operation."))
+
             lead_id = lead_obj.merge_opportunity(cr, uid, opp_ids, context=context)
             lead_ids = [lead_id]
-
-            if lead_id == context['active_id']:
-                raise osv.except_osv(_('Warning'), _("You can not merge a lead with itself.\
-                Please choose correct opportunity to complete merge operation."))
-
+            
+#            _logger.info("opp_ids : %s"%opp_ids)            
+#            _logger.info("Lead_id : %s"%lead_id)
+            
             lead = lead_obj.read(cr, uid, lead_id, ['type', 'user_id'], context=context)
+#           _logger.info("Lead record : %s"% lead)
+            
+            if not lead:
+                raise Warning("Lead record not found.")
+
             if lead['type'] == "lead":
                 context = dict(context, active_ids=lead_ids)
                 vals.update({'lead_ids': lead_ids, 'user_ids': [w.user_id.id]})
