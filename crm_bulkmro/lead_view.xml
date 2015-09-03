@@ -65,29 +65,40 @@
                 </field>
             </record>
             
-<!--         <record id="action_mark_as_junk" model="ir.actions.server"> -->
-<!--             <field name="name">Mark As Junk</field> -->
-<!--             <field name="model_id" ref="model_crm_lead"/> -->
-<!--             <field name="state">code</field> -->
-<!--             <field name="code"> -->
-<!--                 if context.get('active_model') == 'crm.lead' and context.get('active_ids'): -->
-<!--                     self.case_mark_lost(cr, uid, context['active_ids'], context=context) -->
-<!--             </field> -->
-<!--         </record>             -->
-            
-<!--         <record id="ir_mark_as_junk_mail" model="ir.values"> -->
-<!--             <field eval="'client_action_multi'" name="key2"/> -->
-<!--             <field eval="'crm.lead'" name="model"/> -->
-<!--             <field name="name">Mark as Junk Mail</field> -->
-<!--             <field eval="'ir.actions.server,%d'%action_mark_as_junk" name="value"/> -->
-<!--         </record> -->
+            <record id="view_crm_case_leads_filter_inherit" model="ir.ui.view">
+            <field name="name">CRM Leads inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.view_crm_case_leads_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="/search/filter[@name='unassigned']" position="after">
+                    <filter name="unassinged_unstaged" string="Stage not set &amp; Unassingend"
+                            domain="[('stage_id','=',False),('user_id','=', False)]"
+                            help="Leads that are not present in any stage and unassigned"/>
+                </xpath>
+            </field>
+        </record>
         
-<!--         <record id="ir_mark_as_admin_mail" model="ir.values"> -->
-<!--             <field eval="'client_action_multi'" name="key2"/> -->
-<!--             <field eval="'crm.lead'" name="model"/> -->
-<!--             <field name="name">Mark as Admin Mail</field> -->
-<!-- 			<field name="value" eval="'ir.actions.server,' + str(ref('crm.action_mark_as_lost'))" /> 
-        </record>-->
+         <record id="crm.crm_case_category_act_leads_all" model="ir.actions.act_window">
+         <field name="search_view_id" ref="view_crm_case_leads_filter_inherit"/>
+        <field name="context">{
+                'default_type':'lead',
+                'stage_type':'lead',
+                'needaction_menu_ref': 'crm.menu_crm_opportunities',
+                'search_default_unassinged_unstaged':1
+            }
+        </field>
+		</record>
+
+            <record id="view_crm_case_opportunities_filter_inherit" model="ir.ui.view">
+            <field name="name">CRM Opportunity inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.view_crm_case_opportunities_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="/search/field[@name='name']" position="after">
+                    <field name="inquiry_number" string="Inquiry number" />
+                </xpath>
+            </field>
+        </record>
             
     </data>
 </openerp>
