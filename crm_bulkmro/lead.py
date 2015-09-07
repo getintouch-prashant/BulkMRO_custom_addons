@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from openerp import models, fields, api
+import logging
 
-# class crm_bulkmro(models.Model):
-#     _name = 'crm_bulkmro.crm_bulkmro'
+_logger = logging.getLogger(__name__)
 
-#     name = fields.Char()
 
 class crm_lead(models.Model):
     
@@ -39,6 +38,18 @@ class crm_lead(models.Model):
         lead_ids = self.search(cr, uid, ['|',('inquiry_number', 'ilike', '%%%s%%' % name),('name', 'ilike', '%%%s%%' % name)]+args, limit=limit, context=context)
         return self.name_get(cr, uid, lead_ids, context=context)
      
+# Fetch Mail from seller@bulkmro.com and convert to Opportunity
+    def case_mark_seller_lead(self, cr, uid, ids, context=None):
+        """ Mark the case as one of the Seller stage: state=  and probability=0
+        """
+        if context is None:
+            context = {}
+        stage_id = self.pool.get('crm.case.stage').search(cr, uid, [('name','=','Introduction Mail to Supplier')], context)
+        try:
+            self.write(cr, uid, ids, {'stage_id': stage_id}, context=context)
+        except Exception:
+            _logger.error(Exception)
+        return True
 
 #         if not args:
 #             args = []

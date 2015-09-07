@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
     <data noupdate="1">
+<!--     Inquiry Number sequence for Leads -->
         <record model="ir.sequence.type" id="crm_lead_inquiry_code_sequence">
             <field name="name">Inquiry number for Leads</field>
             <field name="code">crm.lead.inquiry.sequence</field>
@@ -18,6 +19,9 @@
     </data>
     
     <data>
+
+<!--     Inherited Lead form view -->
+
     		 <record model="ir.ui.view" id="crm_lead_bulkmro_form_view">
                 <field name="name">crm.lead.bulkmro.form</field>
                 <field name="model">crm.lead</field>
@@ -33,6 +37,8 @@
             </record>
 
 
+<!--     Inherited Opportunity form view -->
+
     		 <record model="ir.ui.view" id="crm_oppor_bulkmro_form_view">
                 <field name="name">crm.oppor.bulkmro.form</field>
                 <field name="model">crm.lead</field>
@@ -47,6 +53,8 @@
                 </field>
             </record>
             
+<!--             Inherited Lead To opportunity wizard view  -->
+
             <record model="ir.ui.view" id="view_crm_lead2opportunity_partner_inherit_form_view">
                 <field name="name">crm.lead2opportunity.partner.form.inherit</field>
                 <field name="model">crm.lead2opportunity.partner</field>
@@ -64,7 +72,9 @@
 		                </xpath>
                 </field>
             </record>
-            
+
+<!--             Inherited Leads search view -->
+
             <record id="view_crm_case_leads_filter_inherit" model="ir.ui.view">
             <field name="name">CRM Leads inherit</field>
             <field name="model">crm.lead</field>
@@ -78,6 +88,8 @@
             </field>
         </record>
         
+<!--         Inherited Leads menu action -->
+
          <record id="crm.crm_case_category_act_leads_all" model="ir.actions.act_window">
          <field name="search_view_id" ref="view_crm_case_leads_filter_inherit"/>
         <field name="context">{
@@ -89,6 +101,8 @@
         </field>
 		</record>
 
+<!--             Inherited Opportunity search view -->
+
             <record id="view_crm_case_opportunities_filter_inherit" model="ir.ui.view">
             <field name="name">CRM Opportunity inherit</field>
             <field name="model">crm.lead</field>
@@ -99,6 +113,18 @@
                 </xpath>
             </field>
         </record>
+
+<!-- 		Server action to convert lead to Opportunity for suppliers -->
+        <record id="action_mark_as_supplier_lead" model="ir.actions.server">
+            <field name="name">Mark As Suppliers Lead</field>
+            <field name="model_id" ref="model_crm_lead"/>
+            <field name="state">code</field>
+            <field name="code">
+                if context.get('active_model') == 'crm.lead' and context.get('active_ids'):
+                    self.case_mark_seller_lead(cr, uid, context['active_ids'], context=context)
+            </field>
+        </record>
+        
             
     </data>
 </openerp>
