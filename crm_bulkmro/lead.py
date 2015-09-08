@@ -39,17 +39,25 @@ class crm_lead(models.Model):
         return self.name_get(cr, uid, lead_ids, context=context)
      
 # Fetch Mail from seller@bulkmro.com and convert to Opportunity
-    def case_mark_seller_lead(self, cr, uid, ids, context=None):
+#    @api.multi
+    def case_mark_seller_lead(self, cr, uid, id, context = {}):
         """ Mark the case as one of the Seller stage: state=  and probability=0
         """
-        if context is None:
-            context = {}
-        stage_id = self.pool.get('crm.case.stage').search(cr, uid, [('name','=','Introduction Mail to Supplier')], context)
-        try:
-            self.write(cr, uid, ids, {'stage_id': stage_id}, context=context)
-        except Exception:
-            _logger.error(Exception)
-        return True
+#	_logger.warning("Seller IDS %s and context %s"%(ids, context))
+#	if context.get('active_model', False) == 'crm.lead':
+	seller_stage = self.pool.get('crm.case.stage').search(cr, uid, [('name','=','Introduction Mail to Supplier')])
+	if len(seller_stage):
+		self.write(cr, uid, id, {'type': 'opportunity','stage_id': seller_stage[0]}, context)
+
+#        if context is None:
+#            context = {}
+#        stage_id = self.pool.get('crm.case.stage').search(cr, uid, [('name','=','Introduction Mail to Supplier')], context)
+#        try:
+#            self.write(cr, uid, ids, {'stage_id': stage_id}, context=context)
+#        except Exception:
+#            _logger.error(Exception)
+#        return True
+
 
 #         if not args:
 #             args = []
