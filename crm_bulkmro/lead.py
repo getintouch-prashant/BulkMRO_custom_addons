@@ -45,9 +45,9 @@ class crm_lead(models.Model):
         """
 #	_logger.warning("Seller IDS %s and context %s"%(ids, context))
 #	if context.get('active_model', False) == 'crm.lead':
-	seller_stage = self.pool.get('crm.case.stage').search(cr, uid, [('name','=','Introduction Mail to Supplier')])
+	seller_stage = self.pool.get('crm.case.stage').search(cr, uid, [('name','=','Supplier Catalog and Info')])
 	if len(seller_stage):
-		self.write(cr, uid, id, {'type': 'opportunity','stage_id': seller_stage[0]}, context)
+		self.write(cr, uid, id, {'type': 'lead','stage_id': seller_stage[0]}, context)
 
 #        if context is None:
 #            context = {}
