@@ -41,13 +41,14 @@ class crm_lead(models.Model):
 # Fetch Mail from seller@bulkmro.com and convert to Opportunity
 #    @api.multi
     def case_mark_seller_lead(self, cr, uid, id, context = {}):
+        
         """ Mark the case as one of the Seller stage: state=  and probability=0
         """
 #	_logger.warning("Seller IDS %s and context %s"%(ids, context))
 #	if context.get('active_model', False) == 'crm.lead':
-	seller_stage = self.pool.get('crm.case.stage').search(cr, uid, [('name','=', 'Seller Leads')])
-	if len(seller_stage):
-		self.write(cr, uid, id, {'type': 'lead','stage_id': seller_stage[0]}, context)
+        seller_stage = self.pool.get('crm.case.stage').search(cr, uid, [('name','=', 'Seller Lead')])
+        if len(seller_stage):
+            self.write(cr, uid, id, {'type': 'lead','stage_id': seller_stage[0]}, context)
 
 #        if context is None:
 #            context = {}
