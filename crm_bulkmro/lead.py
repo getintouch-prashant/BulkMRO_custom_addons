@@ -17,6 +17,8 @@ class crm_lead(models.Model):
     inquiry_number = fields.Char(string = "Inquiry Number", default=get_inq_number)
 
     def name_get(self, cr, user, ids, context=None):
+        if type(ids) is int:
+            ids = [ids]
         if not len(ids):
             return []
         if context is None:
